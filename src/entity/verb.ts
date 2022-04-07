@@ -8,12 +8,12 @@ export interface Verb {
     rusPresentWe: string
     rusPresentYou: string
     rusPresentThey: string
-    rusPresentShe: string
+    rusPresentSheHe: string
     rusFutureI: string
     rusFutureWe: string
     rusFutureYou: string
     rusFutureThey: string
-    rusFutureShe: string
+    rusFutureSheHe: string
     rusPastYouHeI: string
     rusPastWeThey: string
     rusPastShe: string

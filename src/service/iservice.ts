@@ -1,3 +1,5 @@
-export default interface IService {
+import {Service} from "./service";
 
+export default interface IService {
+    service: Service
 }

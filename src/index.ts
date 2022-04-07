@@ -4,6 +4,8 @@ import {initDB} from "./db/init";
 import {initApi} from "./api/controller";
 import IRepo from "./repo/irepo";
 import IService from "./service/iservice";
+import {Repo} from "./repo/repo";
+import {Service} from "./service/service";
 
 export class App {
 
@@ -58,13 +60,13 @@ export class App {
 
     private initRepo(dbClient: Client): IRepo {
         return {
-            userRepo: new UserRepo(dbClient),
+            repo: new Repo(dbClient)
         }
     }
 
     private initService(repo: IRepo): IService {
         return {
-            userService: new UserService(repo),
+            service: new Service(repo)
         }
     }
 
