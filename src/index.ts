@@ -6,6 +6,8 @@ import IRepo from "./repo/irepo";
 import IService from "./service/iservice";
 import {Repo} from "./repo/repo";
 import {Service} from "./service/service";
+import {PartSpeechService} from "./service/part.speech.service";
+import {PartSpeechRepo} from "./repo/part.speech.repo";
 
 export class App {
 
@@ -60,13 +62,15 @@ export class App {
 
     private initRepo(dbClient: Client): IRepo {
         return {
-            repo: new Repo(dbClient)
+            repo: new Repo(dbClient),
+            partSpeechRepo: new PartSpeechRepo(dbClient),
         }
     }
 
     private initService(repo: IRepo): IService {
         return {
-            service: new Service(repo)
+            service: new Service(repo),
+            speechService: new PartSpeechService(repo),
         }
     }
 
