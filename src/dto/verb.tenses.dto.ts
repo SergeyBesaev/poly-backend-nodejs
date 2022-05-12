@@ -1,4 +1,4 @@
 export interface VerbTensesDto {
-    rusForm: string
-    engForm: string
+    rus: string
+    eng: string
 }

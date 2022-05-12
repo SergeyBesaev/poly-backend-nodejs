@@ -9,10 +9,10 @@ export class Repo {
     public async getAllVerbFromDb(): Promise<Verb[]> {
         const result = await this.dbClient.query<Verb>({
             text: `select id,
-                          eng_base           "engBase",
+                          eng                "engBase",
                           eng_third          "engThird",
                           eng_simple_past    "engSimplePast",
-                          rus_base           "rusBase",
+                          rus                "rusBase",
                           rus_present_i      "rusPresentI",
                           rus_present_we     "rusPresentWe",
                           rus_present_you    "rusPresentYou",
@@ -33,7 +33,7 @@ export class Repo {
 
     public async getAllPronounsFromDb(): Promise<Pronoun[]> {
         const result = await this.dbClient.query<Pronoun>({
-            text: 'select id, eng_pronoun eng, rus_pronoun rus from pronouns'
+            text: 'select id, eng eng, rus rus from pronouns'
         })
 
         return result.rows

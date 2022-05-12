@@ -4,6 +4,6 @@ export enum PartOfSpeechEnum {
     conjunction = 'conjunctions',
     noun = 'nouns',
     pronoun = 'pronouns',
-    reposition = 'repositions',
+    preposition = 'prepositions',
     verb = 'verbs'
 }
