@@ -4,7 +4,7 @@ import IService from "../service/iservice"
 
 export function initApi(
     app: express.Express,
-    { service, speechService }: IService
+    {service, speechService}: IService
 ) {
 
     app.route('/lesson-1')
@@ -20,10 +20,9 @@ export function initApi(
         }))
 
     app.route('/dictionary/:partOfSpeech')
-        .get(asyncHandler(async (req, res, next) =>{
+        .get(asyncHandler(async (req, res, next) => {
             res.locals.body = await speechService.returnAllWords(req.params.partOfSpeech)
             next()
         }))
-
 
 }
