@@ -1,10 +1,10 @@
 import asyncHandler from 'express-async-handler'
 import express from 'express'
-import IService from "../service/iservice"
+import IService from '../service/iservice'
 
 export function initApi(
     app: express.Express,
-    {service, speechService}: IService
+    { service, speechService }: IService
 ) {
 
     app.route('/lesson-1')
@@ -24,5 +24,4 @@ export function initApi(
             res.locals.body = await speechService.returnAllWords(req.params.partOfSpeech)
             next()
         }))
-
 }

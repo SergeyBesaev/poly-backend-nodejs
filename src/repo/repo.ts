@@ -1,6 +1,6 @@
-import {Client} from "pg";
-import {Pronoun} from "../entity/pronoun";
-import {Verb} from "../entity/verb";
+import { Client } from 'pg'
+import { Pronoun } from '../entity/pronoun'
+import { Verb } from '../entity/verb'
 
 export class Repo {
     constructor(private readonly dbClient: Client) {

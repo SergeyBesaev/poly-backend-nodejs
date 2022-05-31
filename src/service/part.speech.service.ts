@@ -1,7 +1,7 @@
-import IRepo from "../repo/irepo";
-import {PartSpeechRepo} from "../repo/part.speech.repo";
-import {PartOfSpeechEnum} from "../entity/part.of.speech.enum";
-import {shuffle} from "../util/util";
+import IRepo from '../repo/irepo'
+import { PartSpeechRepo } from '../repo/part.speech.repo'
+import { PartOfSpeechEnum } from '../entity/part.of.speech.enum'
+import { shuffle } from '../util/util'
 
 export class PartSpeechService {
     private readonly repo: PartSpeechRepo

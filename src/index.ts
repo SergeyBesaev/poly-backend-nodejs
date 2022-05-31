@@ -9,6 +9,8 @@ import {Service} from "./service/service";
 import {PartSpeechService} from "./service/part.speech.service";
 import {PartSpeechRepo} from "./repo/part.speech.repo";
 import {authController} from "./api/auth.controller";
+import {AuthService} from "./service/auth.service";
+import {UserRepo} from "./repo/userRepo";
 
 export class App {
 
@@ -22,7 +24,7 @@ export class App {
         app.use(express.json())
 
         initApi(app, service)
-        authController(app)
+        authController(app, service)
 
         function errorHandler() {
             return async (error: Error, req: Request, res: Response, next: NextFunction) => {
@@ -66,6 +68,7 @@ export class App {
         return {
             repo: new Repo(dbClient),
             partSpeechRepo: new PartSpeechRepo(dbClient),
+            authRepo: new UserRepo(dbClient)
         }
     }
 
@@ -73,6 +76,7 @@ export class App {
         return {
             service: new Service(repo),
             speechService: new PartSpeechService(repo),
+            authService: new AuthService(repo),
         }
     }
 
