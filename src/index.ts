@@ -8,7 +8,6 @@ import {Repo} from "./repo/repo";
 import {Service} from "./service/service";
 import {PartSpeechService} from "./service/part.speech.service";
 import {PartSpeechRepo} from "./repo/part.speech.repo";
-import {authController} from "./api/auth.controller";
 
 export class App {
 
@@ -22,7 +21,6 @@ export class App {
         app.use(express.json())
 
         initApi(app, service)
-        authController(app)
 
         function errorHandler() {
             return async (error: Error, req: Request, res: Response, next: NextFunction) => {
