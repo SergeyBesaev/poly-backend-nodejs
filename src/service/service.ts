@@ -1,10 +1,10 @@
-import {Repo} from "../repo/repo"
-import IRepo from "../repo/irepo"
-import {Verb} from "../entity/verb"
-import {VerbTensesDto} from "../dto/verb.tenses.dto";
-import {VerbTensesEnum} from "../entity/verb.tensens.enum";
-import {Pronoun} from "../entity/pronoun";
-import {shuffle} from "../util/util";
+import { Repo } from '../repo/repo'
+import IRepo from '../repo/irepo'
+import { Verb } from '../entity/verb'
+import { VerbTensesDto } from '../dto/verb.tenses.dto'
+import { VerbTensesEnum } from '../entity/verb.tensens.enum'
+import { Pronoun } from '../entity/pronoun'
+import { shuffle } from '../util/util'
 
 export class Service {
     private readonly repo: Repo
@@ -27,153 +27,153 @@ export class Service {
         const verbTense = await this.fetchRandomVerbTenses()
         if (verbTense === VerbTensesEnum.FutureQuestion) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `Will I ${verb.engBase}?`, rus: `Я ${verb.rusFutureI}?`}
-                case 'You':
-                    return {eng: `Will you ${verb.engBase}?`, rus: `Ты ${verb.rusFutureYou}?`}
-                case 'We':
-                    return {eng: `Will we ${verb.engBase}?`, rus: `Мы ${verb.rusFutureWe}?`}
-                case 'They':
-                    return {eng: `Will they ${verb.engBase}?`, rus: `Они ${verb.rusFutureThey}?`}
-                case 'He':
-                    return {eng: `Will he ${verb.engBase}?`, rus: `Он ${verb.rusFutureSheHe}?`}
-                default:
-                    return {eng: `Will she ${verb.engBase}?`, rus: `Она ${verb.rusFutureSheHe}?`}
+            case 'I':
+                return { eng: `Will I ${verb.engBase}?`, rus: `Я ${verb.rusFutureI}?` }
+            case 'You':
+                return { eng: `Will you ${verb.engBase}?`, rus: `Ты ${verb.rusFutureYou}?` }
+            case 'We':
+                return { eng: `Will we ${verb.engBase}?`, rus: `Мы ${verb.rusFutureWe}?` }
+            case 'They':
+                return { eng: `Will they ${verb.engBase}?`, rus: `Они ${verb.rusFutureThey}?` }
+            case 'He':
+                return { eng: `Will he ${verb.engBase}?`, rus: `Он ${verb.rusFutureSheHe}?` }
+            default:
+                return { eng: `Will she ${verb.engBase}?`, rus: `Она ${verb.rusFutureSheHe}?` }
             }
 
         }
         if (verbTense === VerbTensesEnum.FutureStatement) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `I will ${verb.engBase}`, rus: `Я ${verb.rusFutureI}`}
-                case 'You':
-                    return {eng: `You will ${verb.engBase}`, rus: `Ты ${verb.rusFutureYou}`}
-                case 'We':
-                    return {eng: `We will ${verb.engBase}`, rus: `Мы ${verb.rusFutureWe}`}
-                case 'They':
-                    return {eng: `They will ${verb.engBase}`, rus: `Они ${verb.rusFutureThey}`}
-                case 'He':
-                    return {eng: `He will ${verb.engBase}`, rus: `Он ${verb.rusFutureSheHe}`}
-                default:
-                    return {eng: `She will ${verb.engBase}`, rus: `Она ${verb.rusFutureSheHe}`}
+            case 'I':
+                return { eng: `I will ${verb.engBase}`, rus: `Я ${verb.rusFutureI}` }
+            case 'You':
+                return { eng: `You will ${verb.engBase}`, rus: `Ты ${verb.rusFutureYou}` }
+            case 'We':
+                return { eng: `We will ${verb.engBase}`, rus: `Мы ${verb.rusFutureWe}` }
+            case 'They':
+                return { eng: `They will ${verb.engBase}`, rus: `Они ${verb.rusFutureThey}` }
+            case 'He':
+                return { eng: `He will ${verb.engBase}`, rus: `Он ${verb.rusFutureSheHe}` }
+            default:
+                return { eng: `She will ${verb.engBase}`, rus: `Она ${verb.rusFutureSheHe}` }
             }
 
         }
         if (verbTense === VerbTensesEnum.FutureNegative) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `I will not ${verb.engBase}`, rus: `Я не ${verb.rusFutureI}`}
-                case 'You':
-                    return {eng: `You will not ${verb.engBase}`, rus: `Ты не ${verb.rusFutureYou}`}
-                case 'We':
-                    return {eng: `We will not ${verb.engBase}`, rus: `Мы не ${verb.rusFutureWe}`}
-                case 'They':
-                    return {eng: `They will not ${verb.engBase}`, rus: `Они не ${verb.rusFutureThey}`}
-                case 'He':
-                    return {eng: `He will not ${verb.engBase}`, rus: `Он не ${verb.rusFutureSheHe}`}
-                default:
-                    return {eng: `She will not ${verb.engBase}`, rus: `Она не ${verb.rusFutureSheHe}`}
+            case 'I':
+                return { eng: `I will not ${verb.engBase}`, rus: `Я не ${verb.rusFutureI}` }
+            case 'You':
+                return { eng: `You will not ${verb.engBase}`, rus: `Ты не ${verb.rusFutureYou}` }
+            case 'We':
+                return { eng: `We will not ${verb.engBase}`, rus: `Мы не ${verb.rusFutureWe}` }
+            case 'They':
+                return { eng: `They will not ${verb.engBase}`, rus: `Они не ${verb.rusFutureThey}` }
+            case 'He':
+                return { eng: `He will not ${verb.engBase}`, rus: `Он не ${verb.rusFutureSheHe}` }
+            default:
+                return { eng: `She will not ${verb.engBase}`, rus: `Она не ${verb.rusFutureSheHe}` }
             }
 
         }
         if (verbTense === VerbTensesEnum.PresentQuestion) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `Do I ${verb.engBase}?`, rus: `Я ${verb.rusPresentI}?`}
-                case 'You':
-                    return {eng: `Do you ${verb.engBase}?`, rus: `Ты ${verb.rusPresentYou}?`}
-                case 'We':
-                    return {eng: `Do we ${verb.engBase}?`, rus: `Мы ${verb.rusPresentWe}?`}
-                case 'They':
-                    return {eng: `Do they ${verb.engBase}?`, rus: `Они ${verb.rusPresentThey}?`}
-                case 'He':
-                    return {eng: `Does he ${verb.engBase}?`, rus: `Он ${verb.rusPresentSheHe}?`}
-                default:
-                    return {eng: `Does she ${verb.engBase}?`, rus: `Она ${verb.rusPresentSheHe}?`}
+            case 'I':
+                return { eng: `Do I ${verb.engBase}?`, rus: `Я ${verb.rusPresentI}?` }
+            case 'You':
+                return { eng: `Do you ${verb.engBase}?`, rus: `Ты ${verb.rusPresentYou}?` }
+            case 'We':
+                return { eng: `Do we ${verb.engBase}?`, rus: `Мы ${verb.rusPresentWe}?` }
+            case 'They':
+                return { eng: `Do they ${verb.engBase}?`, rus: `Они ${verb.rusPresentThey}?` }
+            case 'He':
+                return { eng: `Does he ${verb.engBase}?`, rus: `Он ${verb.rusPresentSheHe}?` }
+            default:
+                return { eng: `Does she ${verb.engBase}?`, rus: `Она ${verb.rusPresentSheHe}?` }
             }
 
         }
         if (verbTense === VerbTensesEnum.PresentStatement) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `I ${verb.engBase}`, rus: `Я ${verb.rusPresentI}`}
-                case 'You':
-                    return {eng: `You ${verb.engBase}`, rus: `Ты ${verb.rusPresentYou}`}
-                case 'We':
-                    return {eng: `We ${verb.engBase}`, rus: `Мы ${verb.rusPresentWe}`}
-                case 'They':
-                    return {eng: `They ${verb.engBase}`, rus: `Они ${verb.rusPresentThey}`}
-                case 'He':
-                    return {eng: `He ${verb.engThird}`, rus: `Он ${verb.rusPresentSheHe}`}
-                default:
-                    return {eng: `She ${verb.engThird}`, rus: `Она ${verb.rusPresentSheHe}`}
+            case 'I':
+                return { eng: `I ${verb.engBase}`, rus: `Я ${verb.rusPresentI}` }
+            case 'You':
+                return { eng: `You ${verb.engBase}`, rus: `Ты ${verb.rusPresentYou}` }
+            case 'We':
+                return { eng: `We ${verb.engBase}`, rus: `Мы ${verb.rusPresentWe}` }
+            case 'They':
+                return { eng: `They ${verb.engBase}`, rus: `Они ${verb.rusPresentThey}` }
+            case 'He':
+                return { eng: `He ${verb.engThird}`, rus: `Он ${verb.rusPresentSheHe}` }
+            default:
+                return { eng: `She ${verb.engThird}`, rus: `Она ${verb.rusPresentSheHe}` }
             }
 
         }
         if (verbTense === VerbTensesEnum.PresentNegative) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `I don't ${verb.engBase}`, rus: `Я не ${verb.rusPresentI}`}
-                case 'You':
-                    return {eng: `You don't ${verb.engBase}`, rus: `Ты не ${verb.rusPresentYou}`}
-                case 'We':
-                    return {eng: `We don't ${verb.engBase}`, rus: `Мы не ${verb.rusPresentWe}`}
-                case 'They':
-                    return {eng: `They don't ${verb.engBase}`, rus: `Они не ${verb.rusPresentThey}`}
-                case 'He':
-                    return {eng: `He doesn't ${verb.engBase}`, rus: `Он не ${verb.rusPresentSheHe}`}
-                default:
-                    return {eng: `She doesn't ${verb.engBase}`, rus: `Она не ${verb.rusPresentSheHe}`}
+            case 'I':
+                return { eng: `I don't ${verb.engBase}`, rus: `Я не ${verb.rusPresentI}` }
+            case 'You':
+                return { eng: `You don't ${verb.engBase}`, rus: `Ты не ${verb.rusPresentYou}` }
+            case 'We':
+                return { eng: `We don't ${verb.engBase}`, rus: `Мы не ${verb.rusPresentWe}` }
+            case 'They':
+                return { eng: `They don't ${verb.engBase}`, rus: `Они не ${verb.rusPresentThey}` }
+            case 'He':
+                return { eng: `He doesn't ${verb.engBase}`, rus: `Он не ${verb.rusPresentSheHe}` }
+            default:
+                return { eng: `She doesn't ${verb.engBase}`, rus: `Она не ${verb.rusPresentSheHe}` }
             }
 
         }
         if (verbTense === VerbTensesEnum.PastQuestion) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `Did I ${verb.engBase}?`, rus: `Я ${verb.rusPastYouHeI}?`}
-                case 'You':
-                    return {eng: `Did you ${verb.engBase}?`, rus: `Ты ${verb.rusPastYouHeI}?`}
-                case 'We':
-                    return {eng: `Did we ${verb.engBase}?`, rus: `Мы ${verb.rusPastWeThey}?`}
-                case 'They':
-                    return {eng: `Did they ${verb.engBase}?`, rus: `Они ${verb.rusPastWeThey}?`}
-                case 'He':
-                    return {eng: `Did he ${verb.engBase}?`, rus: `Он ${verb.rusPastYouHeI}?`}
-                default:
-                    return {eng: `Did she ${verb.engBase}?`, rus: `Она ${verb.rusPastShe}?`}
+            case 'I':
+                return { eng: `Did I ${verb.engBase}?`, rus: `Я ${verb.rusPastYouHeI}?` }
+            case 'You':
+                return { eng: `Did you ${verb.engBase}?`, rus: `Ты ${verb.rusPastYouHeI}?` }
+            case 'We':
+                return { eng: `Did we ${verb.engBase}?`, rus: `Мы ${verb.rusPastWeThey}?` }
+            case 'They':
+                return { eng: `Did they ${verb.engBase}?`, rus: `Они ${verb.rusPastWeThey}?` }
+            case 'He':
+                return { eng: `Did he ${verb.engBase}?`, rus: `Он ${verb.rusPastYouHeI}?` }
+            default:
+                return { eng: `Did she ${verb.engBase}?`, rus: `Она ${verb.rusPastShe}?` }
             }
 
         }
         if (verbTense === VerbTensesEnum.PastStatement) {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `I ${verb.engSimplePast}`, rus: `Я ${verb.rusPastYouHeI}`}
-                case 'You':
-                    return {eng: `You ${verb.engSimplePast}`, rus: `Ты ${verb.rusPastYouHeI}`}
-                case 'We':
-                    return {eng: `We ${verb.engSimplePast}`, rus: `Мы ${verb.rusPastWeThey}`}
-                case 'They':
-                    return {eng: `They ${verb.engSimplePast}`, rus: `Они ${verb.rusPastWeThey}`}
-                case 'He':
-                    return {eng: `He ${verb.engSimplePast}`, rus: `Он ${verb.rusPastYouHeI}`}
-                default:
-                    return {eng: `She ${verb.engSimplePast}`, rus: `Она ${verb.rusPastShe}`}
+            case 'I':
+                return { eng: `I ${verb.engSimplePast}`, rus: `Я ${verb.rusPastYouHeI}` }
+            case 'You':
+                return { eng: `You ${verb.engSimplePast}`, rus: `Ты ${verb.rusPastYouHeI}` }
+            case 'We':
+                return { eng: `We ${verb.engSimplePast}`, rus: `Мы ${verb.rusPastWeThey}` }
+            case 'They':
+                return { eng: `They ${verb.engSimplePast}`, rus: `Они ${verb.rusPastWeThey}` }
+            case 'He':
+                return { eng: `He ${verb.engSimplePast}`, rus: `Он ${verb.rusPastYouHeI}` }
+            default:
+                return { eng: `She ${verb.engSimplePast}`, rus: `Она ${verb.rusPastShe}` }
             }
 
         } else {
             switch (pronoun.eng) {
-                case 'I':
-                    return {eng: `I didn't ${verb.engBase}`, rus: `Я не ${verb.rusPastYouHeI}`}
-                case 'You':
-                    return {eng: `You didn't ${verb.engBase}`, rus: `Ты не ${verb.rusPastYouHeI}`}
-                case 'We':
-                    return {eng: `We didn't ${verb.engBase}`, rus: `Мы не ${verb.rusPastWeThey}`}
-                case 'They':
-                    return {eng: `They didn't ${verb.engBase}`, rus: `Они не ${verb.rusPastWeThey}`}
-                case 'He':
-                    return {eng: `He didn't ${verb.engBase}`, rus: `Он не ${verb.rusPastYouHeI}`}
-                default:
-                    return {eng: `She didn't ${verb.engBase}`, rus: `Она не ${verb.rusPastShe}`}
+            case 'I':
+                return { eng: `I didn't ${verb.engBase}`, rus: `Я не ${verb.rusPastYouHeI}` }
+            case 'You':
+                return { eng: `You didn't ${verb.engBase}`, rus: `Ты не ${verb.rusPastYouHeI}` }
+            case 'We':
+                return { eng: `We didn't ${verb.engBase}`, rus: `Мы не ${verb.rusPastWeThey}` }
+            case 'They':
+                return { eng: `They didn't ${verb.engBase}`, rus: `Они не ${verb.rusPastWeThey}` }
+            case 'He':
+                return { eng: `He didn't ${verb.engBase}`, rus: `Он не ${verb.rusPastYouHeI}` }
+            default:
+                return { eng: `She didn't ${verb.engBase}`, rus: `Она не ${verb.rusPastShe}` }
             }
         }
 
