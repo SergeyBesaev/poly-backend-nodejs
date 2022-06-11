@@ -73,7 +73,6 @@ export class App {
     }
 
     private initService(repo: IRepo): IService {
-        // @ts-ignore
         return {
             service: new Service(repo),
             speechService: new PartSpeechService(repo),
