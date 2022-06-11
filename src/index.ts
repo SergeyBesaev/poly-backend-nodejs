@@ -8,12 +8,9 @@ import {Repo} from "./repo/repo";
 import {Service} from "./service/service";
 import {PartSpeechService} from "./service/part.speech.service";
 import {PartSpeechRepo} from "./repo/part.speech.repo";
-<<<<<<< HEAD
-=======
 import {authController} from "./api/auth.controller";
-import {AuthService} from "./service/auth.service";
 import {UserRepo} from "./repo/userRepo";
->>>>>>> auth-with-jwt
+import { AuthService } from './service/auth.service';
 
 export class App {
 
@@ -27,10 +24,7 @@ export class App {
         app.use(express.json())
 
         initApi(app, service)
-<<<<<<< HEAD
-=======
         authController(app, service)
->>>>>>> auth-with-jwt
 
         function errorHandler() {
             return async (error: Error, req: Request, res: Response, next: NextFunction) => {
@@ -79,6 +73,7 @@ export class App {
     }
 
     private initService(repo: IRepo): IService {
+        // @ts-ignore
         return {
             service: new Service(repo),
             speechService: new PartSpeechService(repo),
