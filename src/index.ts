@@ -1,7 +1,7 @@
 import express, { NextFunction, Request, Response } from 'express'
 import {Client} from "pg";
 import {initDB} from "./db/init";
-import {initApi} from "./api/controller";
+import {initApi} from "./api/lesson.controller";
 import IRepo from "./repo/irepo";
 import IService from "./service/iservice";
 import {Repo} from "./repo/repo";
@@ -11,6 +11,10 @@ import {PartSpeechRepo} from "./repo/part.speech.repo";
 import {authController} from "./api/auth.controller";
 import {UserRepo} from "./repo/userRepo";
 import { AuthService } from './service/auth.service';
+import {TokenRepo} from "./repo/token.repo";
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+
 
 export class App {
 
@@ -22,6 +26,8 @@ export class App {
         const service = this.initService(repo)
 
         app.use(express.json())
+        app.use(cookieParser())
+        app.use(cors())
 
         initApi(app, service)
         authController(app, service)
@@ -68,7 +74,8 @@ export class App {
         return {
             repo: new Repo(dbClient),
             partSpeechRepo: new PartSpeechRepo(dbClient),
-            authRepo: new UserRepo(dbClient)
+            userRepo: new UserRepo(dbClient),
+            tokenRepo: new TokenRepo(dbClient),
         }
     }
 
@@ -76,7 +83,8 @@ export class App {
         return {
             service: new Service(repo),
             speechService: new PartSpeechService(repo),
-            authService: new AuthService(repo),
+            authService: new AuthService(repo, repo),
+
         }
     }
 

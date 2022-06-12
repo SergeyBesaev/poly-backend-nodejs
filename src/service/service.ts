@@ -4,7 +4,7 @@ import { Verb } from '../entity/verb'
 import { VerbTensesDto } from '../dto/verb.tenses.dto'
 import { VerbTensesEnum } from '../entity/verb.tensens.enum'
 import { Pronoun } from '../entity/pronoun'
-import { shuffle } from '../util/util'
+import {shuffle} from '../util/util'
 
 export class Service {
     private readonly repo: Repo

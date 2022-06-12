@@ -1,5 +1,8 @@
 
 export interface UserData {
     id: number
-    name: string
+    name?: string
+    email: string
+    accessToken?: string
+    refreshToken?: string
 }
