@@ -5,11 +5,12 @@ import uuid from "uuid/v4";
 import {hashSha256, validateRefreshToken} from "../util/util"
 import {UserData} from "../entity/users/user.data"
 import jwt from "jsonwebtoken"
-import {TokenRepo} from "../repo/token.repo";
+import {TokenRepo} from "../repo/token.repo"
+require('dotenv').config()
 
-const DELIMETER = '::'
-const accessSecretKey = "ACCESS" // TODO вынести в конфиги
-const refreshSecretKey = 'REFRESH'
+const DELIMETER: string = process.env.DELIMETER as string
+const accessSecretKey: string = process.env.JWT_ACCESS_TOKEN_KEY as string
+const refreshSecretKey: string  = process.env.JWT_REFRESH_TOKEN_KEY as string
 
 export class AuthService {
     private readonly repo: UserRepo
@@ -123,7 +124,7 @@ export class AuthService {
             userId,
             email
         }
-        return jwt.sign(payload, refreshSecretKey, {expiresIn: '30d'})
+        return jwt.sign(payload, refreshSecretKey as string, {expiresIn: '30d'})
     }
 
     private async saveRefreshToken(userId: number, token: string): Promise<void> {

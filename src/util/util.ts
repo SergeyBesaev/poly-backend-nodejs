@@ -1,10 +1,10 @@
-
 import crypto from 'crypto'
 import jwt from "jsonwebtoken";
 import {UserData} from "../entity/users/user.data";
+require('dotenv').config()
 
-const accessSecretKey = "ACCESS" // TODO вынести в конфиги
-const refreshSecretKey = 'REFRESH'
+const accessSecretKey: string = process.env.JWT_ACCESS_TOKEN_KEY as string
+const refreshSecretKey: string  = process.env.JWT_REFRESH_TOKEN_KEY as string
 
 export function shuffle<T>(array: T[]): T[] {
     array.sort(() => Math.random() - 0.5)
