@@ -1,5 +1,5 @@
-import { Client } from 'pg'
-import { User } from '../entity/users/user'
+import {Client} from 'pg'
+import {User} from '../entity/users/user'
 
 export class UserRepo {
     constructor(private readonly dbClient: Client) {

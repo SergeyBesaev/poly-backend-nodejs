@@ -10,7 +10,7 @@ require('dotenv').config()
 
 const DELIMETER: string = process.env.DELIMETER as string
 const accessSecretKey: string = process.env.JWT_ACCESS_TOKEN_KEY as string
-const refreshSecretKey: string  = process.env.JWT_REFRESH_TOKEN_KEY as string
+const refreshSecretKey: string = process.env.JWT_REFRESH_TOKEN_KEY as string
 
 export class AuthService {
     private readonly repo: UserRepo
@@ -68,7 +68,7 @@ export class AuthService {
     }
 
     public async refresh(refreshToken: string): Promise<UserData> {
-        if(!refreshToken) {
+        if (!refreshToken) {
             throw Error('Неизвестная ошибка')
         }
 

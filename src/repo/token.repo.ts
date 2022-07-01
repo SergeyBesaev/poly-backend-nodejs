@@ -6,7 +6,8 @@ export class TokenRepo {
 
     public async saveRefreshTokenInDB(userId: number, refreshToken: string): Promise<void> {
         await this.dbClient.query({
-            text: `insert into refresh_tokens (id_user, refresh_token) values ($1, $2)`,
+            text: `insert into refresh_tokens (id_user, refresh_token)
+                   values ($1, $2)`,
             values: [userId, refreshToken]
         })
     }

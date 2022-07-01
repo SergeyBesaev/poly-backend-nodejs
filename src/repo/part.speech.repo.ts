@@ -1,9 +1,9 @@
-import { Client } from 'pg'
+import {Client} from 'pg'
 
 export class PartSpeechRepo {
+
     constructor(private readonly dbClient: Client) {
     }
-
 
     public async getAllWordsFromDb(partsOfSpeech: string) {
         const result = await this.dbClient.query({
