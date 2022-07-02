@@ -33,12 +33,12 @@ export class App {
         authController(app, service)
 
         function errorHandler() {
-            return async (error: Error, req: Request, res: Response, next: NextFunction) => {
+            return async (errors: Error, req: Request, res: Response, next: NextFunction) => {
 
-                console.error(error.stack)
+                console.error(errors.stack)
                 const body = {
                     success: false,
-                    error: error.message
+                    errors: errors.message
                 }
                 res.status(500).json(body)
             }

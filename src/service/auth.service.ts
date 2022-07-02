@@ -8,7 +8,8 @@ import jwt from "jsonwebtoken"
 import {TokenRepo} from "../repo/token.repo"
 import {env} from 'process'
 import v4 from "uuid/v4";
-import nodemailer from "nodemailer";
+import nodemailer from "nodemailer"
+import validator from "validator"
 
 const DELIMETER: string = env.DELIMETER as string
 const accessSecretKey: string = env.JWT_ACCESS_TOKEN_KEY as string
@@ -36,6 +37,9 @@ export class AuthService {
 
     // TODO добавить валидация полей
     public async registration(user: User): Promise<UserData> {
+
+        this.validationAtRegisterAndLogin(user)
+
         const candidate: User = await this.repo.fetchUserByEmail(user.email)
         if (candidate) {
             throw Error(`User with email ${user.email} already exists`)
@@ -61,6 +65,9 @@ export class AuthService {
     }
 
     public async authorization(user: User): Promise<UserData> {
+
+        this.validationAtRegisterAndLogin(user)
+
         const candidate: User = await this.repo.fetchUserByEmail(user.email)
         const error = Error(`Invalid login or password`)
 
@@ -162,6 +169,20 @@ export class AuthService {
             await this.tokenRepo.saveRefreshTokenInDB(userId, token)
         }
 
+    }
+
+    private validationAtRegisterAndLogin(user: User) {
+        if (!validator.isEmail(user.email)) {
+            throw Error('Некорректный емэйл')
+        }
+
+        if (!validator.isLength(user.password, {min: 8, max: 30})) {
+            throw Error('Пароль от 8 до 30')
+        }
+
+        if (!validator.isLength(user.name, {min: 3, max: 15})) {
+            throw Error('Имя от 3 до 15')
+        }
     }
 
     private async sendActivationMail(to: string, link: string): Promise<void> {
