@@ -6,11 +6,24 @@ import {hashSha256, validateRefreshToken} from "../util/util"
 import {UserData} from "../entity/users/user.data"
 import jwt from "jsonwebtoken"
 import {TokenRepo} from "../repo/token.repo"
-require('dotenv').config()
+import {env} from 'process'
+import v4 from "uuid/v4";
+import nodemailer from "nodemailer";
 
-const DELIMETER: string = process.env.DELIMETER as string
-const accessSecretKey: string = process.env.JWT_ACCESS_TOKEN_KEY as string
-const refreshSecretKey: string = process.env.JWT_REFRESH_TOKEN_KEY as string
+const DELIMETER: string = env.DELIMETER as string
+const accessSecretKey: string = env.JWT_ACCESS_TOKEN_KEY as string
+const refreshSecretKey: string = env.JWT_REFRESH_TOKEN_KEY as string
+
+const transporter = nodemailer.createTransport({
+    host: env.EMAIL_HOST,
+    port: 465,
+    secure: true,
+    auth: {
+        user: env.email as string,
+        pass: env.password as string
+    }
+
+})
 
 export class AuthService {
     private readonly repo: UserRepo
@@ -32,7 +45,11 @@ export class AuthService {
         const hashedPassword = this.hashPassword(user.password, salt)
         const combined = `${hashedPassword}${DELIMETER}${salt}` // Save this as user's password to Database
 
-        await this.repo.saveUserInDB(user, combined)
+        const activationLink: string = v4()
+
+        await this.repo.saveUserInDB(user, combined, activationLink)
+
+        await this.sendActivationMail(user.email, `${env.API_URL}/activate/${activationLink}`)
 
         const userFetched: User = await this.repo.fetchUserByEmail(user.email)
 
@@ -91,6 +108,15 @@ export class AuthService {
 
     }
 
+    public async activate(link: string): Promise<void> {
+        const user: User = await this.repo.fetchUserByActivationLink(link)
+        if (!user) {
+            throw Error ('Пользователь не найден')
+        }
+
+        await this.repo.activateUserInDB(user.email)
+    }
+
     private user2userData(user: User): UserData {
         return {
             id: user.id!,
@@ -136,6 +162,15 @@ export class AuthService {
             await this.tokenRepo.saveRefreshTokenInDB(userId, token)
         }
 
+    }
+
+    private async sendActivationMail(to: string, link: string): Promise<void> {
+        await transporter.sendMail({
+            from: env.email,
+            to,
+            subject: 'От Полли',
+            text: `Для активации перейдите по ссылке ${link}">${link}`,
+        })
     }
 
 }

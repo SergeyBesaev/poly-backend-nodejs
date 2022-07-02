@@ -14,8 +14,7 @@ import { AuthService } from './service/auth.service';
 import {TokenRepo} from "./repo/token.repo";
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
-import {EmailService} from "./service/email.service";
-require('dotenv').config()
+import { env } from 'process'
 
 export class App {
 
@@ -64,7 +63,7 @@ export class App {
         app.use(errorHandler())
         app.use(responseHandler())
 
-        const port = process.env.PORT
+        const port = env.PORT
 
         app.listen(port, () => {
             console.log(`Example app listening on port ${port}`)
@@ -85,7 +84,6 @@ export class App {
             service: new Service(repo),
             speechService: new PartSpeechService(repo),
             authService: new AuthService(repo, repo),
-            emailService: new EmailService()
         }
     }
 

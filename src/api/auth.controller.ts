@@ -2,6 +2,7 @@ import express from 'express'
 import asyncHandler from 'express-async-handler'
 import IService from '../service/iservice'
 import {UserData} from "../entity/users/user.data";
+import {env} from 'process'
 
 export function authController(
     app: express.Express,
@@ -43,7 +44,9 @@ export function authController(
 
     app.route('/activate/:link')
         .get(asyncHandler(async (req, res, next) => {
-
+            const link: string = req.params.link
+            await authService.activate(link)
+            res.redirect(env.CLIENT_IRL as string)
         }))
 
 }
