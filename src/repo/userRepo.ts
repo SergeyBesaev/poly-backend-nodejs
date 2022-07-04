@@ -13,6 +13,16 @@ export class UserRepo {
         })
     }
 
+    public async fetchUserById(userId: number): Promise<User> {
+        const result = await this.dbClient.query<User>({
+            text: `select *
+                   from users
+                   where id = $1`,
+            values: [userId]
+        })
+        return result.rows[0]
+    }
+
     public async fetchUserByEmail(email: string): Promise<User> {
         const result = await this.dbClient.query<User>({
             text: `select *

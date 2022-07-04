@@ -6,13 +6,6 @@ export class WordsRepo {
     constructor(private readonly dbClient: Client) {
     }
 
-    public async getAllVerbsId(): Promise<number[]> {
-        const result = await this.dbClient.query({
-            text: 'select id from verbs'
-        })
-        return result.rows
-    }
-
     public async makeRecordVerbsOnUserInDB(user_id: number, word_id: number): Promise<void> {
         await this.dbClient.query({
             text: 'insert into users_words (user_id, word_id) values ($1, $2)',

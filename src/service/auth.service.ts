@@ -58,7 +58,7 @@ export class AuthService {
 
         const userData: UserData = this.user2userData(userFetched)
 
-        await this.saveRefreshToken(userData.id!, userData.refreshToken!)
+        await this.saveRefreshToken(userData.userId!, userData.refreshToken!)
 
         return userData
     }
@@ -103,12 +103,12 @@ export class AuthService {
             throw Error('Пользователь не авторизован')
         }
 
-        const email: string = tokenCheck.email
-        const user: User = await this.repo.fetchUserByEmail(email)
+        const userId: number = tokenCheck.userId
+        const user: User = await this.repo.fetchUserById(userId)
 
         const userData: UserData = this.user2userData(user)
 
-        await this.tokenRepo.updateRefreshTokenInDB(userData.id, userData.refreshToken!)
+        await this.tokenRepo.updateRefreshTokenInDB(userData.userId, userData.refreshToken!)
 
         return userData
 
@@ -125,11 +125,11 @@ export class AuthService {
 
     private user2userData(user: User): UserData {
         return {
-            id: user.id!,
+            userId: user.id!,
             email: user.email,
             name: user.name,
-            accessToken: this.generateAccessToken(user.id!, user.email),
-            refreshToken: this.generateRefreshToken(user.id!, user.email)
+            accessToken: this.generateAccessToken(user.id!),
+            refreshToken: this.generateRefreshToken(user.id!)
         }
     }
 
@@ -143,18 +143,16 @@ export class AuthService {
         return this.hashPassword(enteredPassword, salt) === pass
     }
 
-    private generateAccessToken(userId: number, email: string): string {
+    private generateAccessToken(userId: number): string {
         const payload = {
-            userId,
-            email
+            userId
         }
         return jwt.sign(payload, accessSecretKey, {expiresIn: '24h'})
     }
 
-    private generateRefreshToken(userId: number, email: string): string {
+    private generateRefreshToken(userId: number): string {
         const payload = {
-            userId,
-            email
+            userId
         }
         return jwt.sign(payload, refreshSecretKey as string, {expiresIn: '30d'})
     }

@@ -18,7 +18,7 @@ export function hashSha256(input: string): string {
 }
 
 export function validateAccessToken(token: string) {
-    return jwt.verify(token, accessSecretKey)
+    return jwt.verify(token, accessSecretKey) as UserData
 }
 
 export function validateRefreshToken(token: string) {

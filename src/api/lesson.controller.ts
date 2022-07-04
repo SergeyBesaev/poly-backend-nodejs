@@ -9,7 +9,7 @@ export function initApi(
 
     app.route('/lesson-1')
         .get(asyncHandler(async (req, res, next) => {
-            res.locals.body = await service.returnListDtoOfLesson1()
+            res.locals.body = await service.makeRecordVerbsOnUser(req.headers.authorization as string)
             next()
         }))
 

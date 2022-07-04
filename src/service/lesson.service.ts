@@ -4,7 +4,7 @@ import { Verb } from '../entity/verb'
 import { VerbTensesDto } from '../dto/verb.tenses.dto'
 import { VerbTensesEnum } from '../entity/verb.tensens.enum'
 import { Pronoun } from '../entity/pronoun'
-import {shuffle} from '../util/util'
+import {shuffle, validateAccessToken} from '../util/util'
 
 export class LessonService {
     private readonly repo: WordsRepo
@@ -13,15 +13,17 @@ export class LessonService {
         this.repo = repo.repo
     }
 
-    public async makeRecordVerbsOnUser() {
-        const idsVerbs: number[] = await this.repo.getAllVerbsId()
+    public async makeRecordVerbsOnUser(token: string) {
+        const dataFromAccessToken = validateAccessToken(token)
 
-        idsVerbs.forEach(async (value) => {
-            await this.repo.makeRecordVerbsOnUserInDB(1, value)
-        })
+        const userIdFromAccessToken: number = dataFromAccessToken.userId
 
+        const verbs = await this.repo.getAllVerbFromDb()
+        shuffle(verbs)
 
-
+        for (const verb of verbs) {
+            await this.repo.makeRecordVerbsOnUserInDB(userIdFromAccessToken, verb.id)
+        }
     }
 
     public async returnListDtoOfLesson1() {
@@ -31,7 +33,6 @@ export class LessonService {
             listVerbs.map(verb => this.makeDtoOutVerb(verb))
         )
     }
-
 
     private async makeDtoOutVerb(verb: Verb): Promise<VerbTensesDto> {
         const pronoun: Pronoun = await this.fetchRandomNoun()
