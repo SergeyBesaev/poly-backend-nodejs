@@ -4,8 +4,8 @@ import {initDB} from "./db/init";
 import {initApi} from "./api/lesson.controller";
 import IRepo from "./repo/irepo";
 import IService from "./service/iservice";
-import {Repo} from "./repo/repo";
-import {Service} from "./service/service";
+import {WordsRepo} from "./repo/words.repo";
+import {LessonService} from "./service/lesson.service";
 import {PartSpeechService} from "./service/part.speech.service";
 import {PartSpeechRepo} from "./repo/part.speech.repo";
 import {authController} from "./api/auth.controller";
@@ -72,7 +72,7 @@ export class App {
 
     private initRepo(dbClient: Client): IRepo {
         return {
-            repo: new Repo(dbClient),
+            repo: new WordsRepo(dbClient),
             partSpeechRepo: new PartSpeechRepo(dbClient),
             userRepo: new UserRepo(dbClient),
             tokenRepo: new TokenRepo(dbClient),
@@ -81,7 +81,7 @@ export class App {
 
     private initService(repo: IRepo): IService {
         return {
-            service: new Service(repo),
+            service: new LessonService(repo),
             speechService: new PartSpeechService(repo),
             authService: new AuthService(repo, repo),
         }

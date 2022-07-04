@@ -1,4 +1,4 @@
-import { Repo } from '../repo/repo'
+import { WordsRepo } from '../repo/words.repo'
 import IRepo from '../repo/irepo'
 import { Verb } from '../entity/verb'
 import { VerbTensesDto } from '../dto/verb.tenses.dto'
@@ -6,11 +6,22 @@ import { VerbTensesEnum } from '../entity/verb.tensens.enum'
 import { Pronoun } from '../entity/pronoun'
 import {shuffle} from '../util/util'
 
-export class Service {
-    private readonly repo: Repo
+export class LessonService {
+    private readonly repo: WordsRepo
 
     constructor(repo: IRepo) {
         this.repo = repo.repo
+    }
+
+    public async makeRecordVerbsOnUser() {
+        const idsVerbs: number[] = await this.repo.getAllVerbsId()
+
+        idsVerbs.forEach(async (value) => {
+            await this.repo.makeRecordVerbsOnUserInDB(1, value)
+        })
+
+
+
     }
 
     public async returnListDtoOfLesson1() {

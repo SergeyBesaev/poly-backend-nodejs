@@ -1,10 +1,10 @@
-import { Repo } from './repo'
+import { WordsRepo } from './words.repo'
 import { PartSpeechRepo } from './part.speech.repo'
 import { UserRepo } from './userRepo'
 import {TokenRepo} from "./token.repo";
 
 export default interface IRepo {
-    repo: Repo
+    repo: WordsRepo
     partSpeechRepo: PartSpeechRepo
     userRepo: UserRepo
     tokenRepo: TokenRepo

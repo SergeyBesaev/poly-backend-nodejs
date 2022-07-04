@@ -35,7 +35,6 @@ export class AuthService {
         this.tokenRepo = tokenRepo.tokenRepo
     }
 
-    // TODO добавить валидация полей
     public async registration(user: User): Promise<UserData> {
 
         this.validationAtRegisterAndLogin(user)
