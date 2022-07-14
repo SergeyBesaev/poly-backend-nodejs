@@ -117,7 +117,7 @@ export class AuthService {
     public async activate(link: string): Promise<void> {
         const user: User = await this.repo.fetchUserByActivationLink(link)
         if (!user) {
-            throw Error ('Пользователь не найден')
+            throw Error('Пользователь не найден')
         }
 
         await this.repo.activateUserInDB(user.email)
@@ -190,5 +190,4 @@ export class AuthService {
             text: `Для активации перейдите по ссылке ${link}">${link}`,
         })
     }
-
 }
