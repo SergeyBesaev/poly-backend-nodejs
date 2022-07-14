@@ -4,18 +4,30 @@ import IService from '../service/iservice'
 
 export function initApi(
     app: express.Express,
-    { service, speechService }: IService
+    {service, speechService}: IService
 ) {
 
     app.route('/lesson-1')
+        .get(asyncHandler(async (req, res, next) => {
+            const checkingUnfinishedLesson: boolean = await service.checkUnfinishedLesson(req.headers.authorization as string)
+
+            if (checkingUnfinishedLesson) {
+                res.locals.body = "У Вас есть незаконченный урок"
+            } else {
+                res.locals.body = await service.makeRecordVerbsOnUser(req.headers.authorization as string)
+            }
+            next()
+        }))
+
+    app.route('/lesson-1/start')
         .get(asyncHandler(async (req, res, next) => {
             res.locals.body = await service.makeRecordVerbsOnUser(req.headers.authorization as string)
             next()
         }))
 
-    app.route('/lesson-1-1')
+    app.route('/lesson-1/get-first-verb')
         .get(asyncHandler(async (req, res, next) => {
-            res.locals.body = await service.getFirstVerb(req.headers.authorization as string)
+            res.locals.body = await service.getFirstVerbForController(req.headers.authorization as string)
             next()
         }))
         .post(asyncHandler(async (req, res, next) => {

@@ -12,10 +12,24 @@ export class LessonService {
         this.repo = repo.repo
     }
 
+    public async checkUnfinishedLesson(token: string): Promise<boolean> {
+
+        const dataFromAccessToken = validateAccessToken(token)
+
+        const userIdFromAccessToken: number = dataFromAccessToken.userId
+
+        const verbs: number[] =  await this.repo.checkUnfinishedLessonByUserId(userIdFromAccessToken)
+
+        return verbs.length !== 0
+
+    }
+
     public async makeRecordVerbsOnUser(token: string) {
         const dataFromAccessToken = validateAccessToken(token)
 
         const userIdFromAccessToken: number = dataFromAccessToken.userId
+
+        await this.repo.removeAllVerbsByUserId(userIdFromAccessToken)
 
         const verbs = await this.repo.getAllVerbFromDb()
         shuffle(verbs)
@@ -27,45 +41,46 @@ export class LessonService {
         }
     }
 
-    public async getFirstVerb(token: string) {
-        const dataFromAccessToken = validateAccessToken(token)
-
-        const userIdFromAccessToken: number = dataFromAccessToken.userId
-
-        const verb: Verb = await this.repo.getFirstVerbByUserId(userIdFromAccessToken)
-
-        const verbTense: string = await this.repo.getVerbTenseByUserId(userIdFromAccessToken)
-
-        const pronoun: Pronoun = await this.repo.getFirstPronounByUserId(userIdFromAccessToken)
-
-        const phrase = await this.makeDtoOutVerb(verb, verbTense, pronoun)
+    public async getFirstVerbForController(token: string) {
+        const phrase = await this.getFirstVerb(token)
         return phrase.rus
 
     }
 
     public async checkInputVerb(token: string, engForm: string) {
+
         const dataFromAccessToken = validateAccessToken(token)
 
         const userIdFromAccessToken: number = dataFromAccessToken.userId
 
+        const phrase = await this.getFirstVerb(token)
+
         const verb: Verb = await this.repo.getFirstVerbByUserId(userIdFromAccessToken)
-
-        const verbTense: string = await this.repo.getVerbTenseByUserId(userIdFromAccessToken)
-
-        const pronoun: Pronoun = await this.repo.getFirstPronounByUserId(userIdFromAccessToken)
-
-        const phrase = await this.makeDtoOutVerb(verb, verbTense, pronoun)
 
         const engRight: string = phrase.eng as string
 
         if (engRight === engForm) {
             console.log(engRight === engForm)
             await this.repo.deleteVerbById(verb.id)
-            return await this.getFirstVerb(token)
+            return await this.getFirstVerbForController(token)
         } else {
             console.log(typeof engForm)
             throw Error('Неверно')
         }
+    }
+
+    private async getFirstVerb(token: string) {
+        const dataFromAccessToken = validateAccessToken(token)
+
+        const userIdFromAccessToken: number = dataFromAccessToken.userId
+
+        const verb: Verb = await this.repo.getFirstVerbByUserId(userIdFromAccessToken)
+
+        const verbTense: string = await this.repo.getVerbTenseByUserId(userIdFromAccessToken)
+
+        const pronoun: Pronoun = await this.repo.getFirstPronounByUserId(userIdFromAccessToken)
+
+        return await this.makeDtoOutVerb(verb, verbTense, pronoun)
     }
 
     private async makeDtoOutVerb(verb: Verb, verbTense: string, pronoun: Pronoun) {

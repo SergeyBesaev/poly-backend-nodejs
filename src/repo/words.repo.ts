@@ -6,6 +6,23 @@ export class WordsRepo {
     constructor(private readonly dbClient: Client) {
     }
 
+    public async removeAllVerbsByUserId(userId: number): Promise<void> {
+        await this.dbClient.query({
+            text: 'delete from users_words where user_id=$1',
+            values: [userId]
+        })
+    }
+
+    public async checkUnfinishedLessonByUserId(userId: number): Promise<number[]> {
+        const result = await this.dbClient.query({
+            text: 'select id from users_words where user_id = $1',
+            values: [userId]
+        })
+
+        return result.rows
+
+    }
+
     public async makeRecordVerbsOnUserInDB(user_id: number, word_id: number, verbTenses: string, pronounId: number): Promise<void> {
         await this.dbClient.query({
             text: 'insert into users_words (user_id, word_id, verb_form, pronoun_id) values ($1, $2, $3, $4)',
